@@ -1,9 +1,16 @@
 ---
 title: "Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and Progenitor Cells Using Bioconductor"
-author: "Kwesi Kumi, Noah Cupp, Duong, Kashif Mashood"
-format: html
+author: "Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood"
+#bibliography: references.bib
+format:
+  gfm:
+    output-file: README.md
+  revealjs:
+    slide-level: 4
 
 execute:
+  echo: true
+  eval: true
   message: false
   warning: false
 ---
@@ -113,8 +120,7 @@ gridExtra::grid.arrange(
 dev.off()
 ```
 
-![QC Plot](images/qc_plot.png)
-*Figure 2: Distribution of quality control (QC) metrics across cells in the Nestorowa dataset. Each point represents a cell and is colored according to whether it was retained (blue) or discarded (orange) after QC filtering.*
+![QC Plot](images/qc_plot.png) *Figure 2: Distribution of quality control (QC) metrics across cells in the Nestorowa dataset. Each point represents a cell and is colored according to whether it was retained (blue) or discarded (orange) after QC filtering.*
 
 ### Normalization
 
@@ -155,8 +161,7 @@ plot(librarySizeFactors(sce.nest), sizeFactors(sce.nest), pch=16,
 dev.off()
 ```
 
-![Normalization Plot](images/normalization_plot.png)
-*Figure 3: Relationship between the library size factors and the deconvolution size factors in the Nestorowa HSC dataset.*
+![Normalization Plot](images/normalization_plot.png) *Figure 3: Relationship between the library size factors and the deconvolution size factors in the Nestorowa HSC dataset.*
 
 The plot compares simple normalization (library size) with scran normalization. Each point represents a cell. The positive relationship indicates that both methods capture differences in sequencing depth, while deviations from a straight line show that scran normalization adjusts for additional technical variation beyond total counts.
 
@@ -258,16 +263,24 @@ best <- chosen[chosen$Top <= 10,] # Keep top 10 marker genes
 aucs <- getMarkerEffects(best, prefix="AUC") # Extract AUC values
 rownames(aucs) <- best$SYMBOL # Fix: ensure unique rownames
 
+<<<<<<< Updated upstream
 png("images/marker_heatmap_cluster8.png", width = 600, height = 900)
 
 pheatmap(aucs, color=viridis::plasma(100))
 dev.off()
+=======
+library(pheatmap)
+pheatmap(
+  aucs,
+  color = viridis::plasma(100),
+  filename = "images/marker_heatmap_cluster8.png",
+  width = 6,
+  height = 9
+)
+>>>>>>> Stashed changes
 ```
 
-
-
-![Marker Heatmap](images/marker_heatmap_cluster8.png) 
-*Figure 6: Heatmap of the AUCs for the top marker genes in cluster 8 compared to all other clusters.*
+![Marker Heatmap](images/marker_heatmap_cluster8.png) *Figure 6: Heatmap of the AUCs for the top marker genes in cluster 8 compared to all other clusters.*
 
 ### Cell Type Annotation
 
@@ -291,15 +304,24 @@ To summarize results, a table was created comparing predicted labels with cluste
 
 ```{r}
 #| results: 'hide'
+<<<<<<< Updated upstream
 #| fig.show: 'hide'
 png("images/celltype_annotation_heatmap.png", width = 600, height = 500)
 
+=======
+>>>>>>> Stashed changes
 tab <- table(labels$labels, colLabels(sce.nest))
-pheatmap(log10(tab+10), color=viridis::viridis(100))
+pheatmap(
+  log10(tab + 10),
+  color = viridis::viridis(100),
+  filename = "images/celltype_annotation_heatmap.png",
+  width = 6,
+  height = 5
+)
 
-dev.off()
 ```
 
+<<<<<<< Updated upstream
 
 
 ![Cell Type Annotation](images/celltype_annotation_heatmap.png)
@@ -310,3 +332,7 @@ dev.off()
 Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor [version 2; peer review: 3 approved, 2 approved with reservations]. F1000Research 2016, 5:2122 (https://doi.org/10.12688/f1000research.9501.2)
 
 Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E. Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A single-cell resolution map of mouse hematopoietic stem and progenitor cell differentiation.” Blood 128 (8): 20–31.
+=======
+![Cell Type Annotation](images/celltype_annotation_heatmap.png) 
+*Figure 7: Heatmap of the distribution of cells for each cluster in the Nestorowa HSC dataset, based on their assignment to each label in the mouse RNA-seq references from the SingleR package.*
+>>>>>>> Stashed changes
