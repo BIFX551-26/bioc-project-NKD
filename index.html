@@ -112,33 +112,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="package-installation" class="level2">
 <h2 class="anchored" data-anchor-id="package-installation">Package Installation</h2>
-<p>Here is the code to install the simpleSingleCell package</p>
+<p>Here is the code to install the various dependencies</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"scRNAseq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="fu">c</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   <span class="st">"scRNAseq"</span>, <span class="st">"AnnotationHub"</span>, <span class="st">"scater"</span>, <span class="st">"scran"</span>, <span class="st">"SingleR"</span>, <span class="st">"celldex"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   <span class="st">"pheatmap"</span>, <span class="st">"viridis"</span>, <span class="st">"gridExtra"</span>, <span class="st">"igraph"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a> ))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="data-overview" class="level2">
 <h2 class="anchored" data-anchor-id="data-overview">Data Overview</h2>
+<p>The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2.</p>
 </section>
 <section id="data-loading-an-annotation" class="level2">
 <h2 class="anchored" data-anchor-id="data-loading-an-annotation">Data Loading an Annotation</h2>
-<p>The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scRNAseq)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AnnotationHub)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sce.nest <span class="ot">&lt;-</span> <span class="fu">NestorowaHSCData</span>()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ens.mm.v97 <span class="ot">&lt;-</span> <span class="fu">AnnotationHub</span>()[[<span class="st">"AH73905"</span>]]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>anno <span class="ot">&lt;-</span> <span class="fu">select</span>(ens.mm.v97, <span class="at">keys=</span><span class="fu">rownames</span>(sce.nest), </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">keytype=</span><span class="st">"GENEID"</span>, <span class="at">columns=</span><span class="fu">c</span>(<span class="st">"SYMBOL"</span>, <span class="st">"SEQNAME"</span>))</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(sce.nest) <span class="ot">&lt;-</span> anno[<span class="fu">match</span>(<span class="fu">rownames</span>(sce.nest), anno<span class="sc">$</span>GENEID),]</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Inspect the resulting SingleCellExperiment object</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>sce.nest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load the dataset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scRNAseq)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AnnotationHub)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sce.nest <span class="ot">&lt;-</span> <span class="fu">NestorowaHSCData</span>()</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Annotation</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ens.mm.v97 <span class="ot">&lt;-</span> <span class="fu">AnnotationHub</span>()[[<span class="st">"AH73905"</span>]]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>anno <span class="ot">&lt;-</span> <span class="fu">select</span>(ens.mm.v97, <span class="at">keys=</span><span class="fu">rownames</span>(sce.nest), </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">keytype=</span><span class="st">"GENEID"</span>, <span class="at">columns=</span><span class="fu">c</span>(<span class="st">"SYMBOL"</span>, <span class="st">"SEQNAME"</span>))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(sce.nest) <span class="ot">&lt;-</span> anno[<span class="fu">match</span>(<span class="fu">rownames</span>(sce.nest), anno<span class="sc">$</span>GENEID),]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Inspect the resulting SingleCellExperiment object</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>sce.nest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SingleCellExperiment 
 dim: 46078 1920 
@@ -337,22 +342,15 @@ altExpNames(2): ERCC FACS</code></pre>
 </div>
 <p>To illustrate the manual annotation process, marker genes for one cluster were examined. In this example, marker gene results for cluster 8 were selected, and the top-ranked genes were retained. Their AUC values were extracted to assess how well each gene distinguishes cluster 8 from other clusters. Genes with higher AUC values provide better separation of this cluster. The upregulation of genes such as Car2, Hebp1, and hemoglobin-related genes suggests that cluster 8 represents erythroid precursor cells.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>chosen <span class="ot">&lt;-</span> markers[[<span class="st">'8'</span>]]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> chosen[chosen<span class="sc">$</span>Top <span class="sc">&lt;=</span> <span class="dv">10</span>,] <span class="co"># Keep top 10 marker genes</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>aucs <span class="ot">&lt;-</span> <span class="fu">getMarkerEffects</span>(best, <span class="at">prefix=</span><span class="st">"AUC"</span>) <span class="co"># Extract AUC values</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(aucs) <span class="ot">&lt;-</span> best<span class="sc">$</span>SYMBOL <span class="co"># Fix: ensure unique rownames</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>chosen <span class="ot">&lt;-</span> markers[[<span class="st">'8'</span>]]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> chosen[chosen<span class="sc">$</span>Top <span class="sc">&lt;=</span> <span class="dv">10</span>,] <span class="co"># Keep top 10 marker genes</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>aucs <span class="ot">&lt;-</span> <span class="fu">getMarkerEffects</span>(best, <span class="at">prefix=</span><span class="st">"AUC"</span>) <span class="co"># Extract AUC values</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(aucs) <span class="ot">&lt;-</span> best<span class="sc">$</span>SYMBOL <span class="co"># Fix: ensure unique rownames</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">"images/marker_heatmap_cluster8.png"</span>, <span class="at">width =</span> <span class="dv">600</span>, <span class="at">height =</span> <span class="dv">900</span>)</span>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(aucs, <span class="at">color=</span>viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="images/marker_heatmap_cluster8.png" class="img-fluid" alt="Marker Heatmap"> <em>Figure 6: Heatmap of the AUCs for the top marker genes in cluster 8 compared to all other clusters.</em></p>
@@ -362,15 +360,16 @@ altExpNames(2): ERCC FACS</code></pre>
 <p>Annotation was performed using the SingleR package. Single-cell clustering identifies groups of similar cells, but does not directly reveal their biological identity. SingleR enables automated annotation by leveraging reference datasets with known cell types. This approach helps interpret clusters in a biological context and validate results from marker gene analysis.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleR)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mm.ref <span class="ot">&lt;-</span> <span class="fu">MouseRNAseqData</span>() <span class="co">#reference dataset (MouseRNAseqData) contains known expression profiles of mouse cell types</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Renaming to symbols to match with reference row names.</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>renamed <span class="ot">&lt;-</span> sce.nest</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(renamed) <span class="ot">&lt;-</span> <span class="fu">uniquifyFeatureNames</span>(<span class="fu">rownames</span>(renamed),</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowData</span>(sce.nest)<span class="sc">$</span>SYMBOL)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Compares each cell’s expression profile to the reference and assigns the most likely cell type label</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(renamed, mm.ref, <span class="at">labels=</span>mm.ref<span class="sc">$</span>label.fine)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(celldex)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>mm.ref <span class="ot">&lt;-</span> celldex<span class="sc">::</span><span class="fu">MouseRNAseqData</span>() <span class="co">#reference dataset (MouseRNAseqData) contains known expression profiles of mouse cell types</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Renaming to symbols to match with reference row names.</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>renamed <span class="ot">&lt;-</span> sce.nest</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(renamed) <span class="ot">&lt;-</span> <span class="fu">uniquifyFeatureNames</span>(<span class="fu">rownames</span>(renamed),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowData</span>(sce.nest)<span class="sc">$</span>SYMBOL)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compares each cell’s expression profile to the reference and assigns the most likely cell type label</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(renamed, mm.ref, <span class="at">labels=</span>mm.ref<span class="sc">$</span>label.fine)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To summarize results, a table was created comparing predicted labels with cluster assignments, Higher values indicate stronger agreement between cluster identity and reference-based annotation:</p>
 <div class="cell">
@@ -378,17 +377,15 @@ altExpNames(2): ERCC FACS</code></pre>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(labels<span class="sc">$</span>labels, <span class="fu">colLabels</span>(sce.nest))</span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(<span class="fu">log10</span>(tab<span class="sc">+</span><span class="dv">10</span>), <span class="at">color=</span>viridis<span class="sc">::</span><span class="fu">viridis</span>(<span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><img src="images/celltype_annotation_heatmap.png" class="img-fluid" alt="Cell Type Annotation"> <em>Figure 7: Heatmap of the distribution of cells for each cluster in the Nestorowa HSC dataset, based on their assignment to each label in the mouse RNA-seq references from the SingleR package.</em></p>
 </section>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<p>Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor [version 2; peer review: 3 approved, 2 approved with reservations]. F1000Research 2016, 5:2122 (https://doi.org/10.12688/f1000research.9501.2)</p>
+<p>Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E. Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A single-cell resolution map of mouse hematopoietic stem and progenitor cell differentiation.” Blood 128 (8): 20–31.</p>
 </section>
 
 </main>
