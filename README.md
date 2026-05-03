@@ -9,56 +9,34 @@ used to detect changes in gene expression during the onset and
 progression of diseases or treatment response.
 
 ## Package Installation
- ```r
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
 
-<<<<<<< Updated upstream
-BiocManager::install(c(
-   "scRNAseq", "AnnotationHub", "scater", "scran", "SingleR", "celldex",
-   "pheatmap", "viridis", "gridExtra", "igraph"
- ))
- ```
-=======
-Here is the code to install the simpleSingleCell package
+Here is the code to install the various dependencies
 
 ``` r
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("scRNAseq")
+BiocManager::install(c(
+   "scRNAseq", "AnnotationHub", "scater", "scran", "SingleR", "celldex",
+   "pheatmap", "viridis", "gridExtra", "igraph"
+ ))
 ```
->>>>>>> Stashed changes
 
 ## Data Overview
-The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2. 
+
+The data that was chosen for this analysis was a mouse haematopoetic
+stem cell (HSC) dataset generated with Smart-seq2.
 
 ## Data Loading an Annotation
-We used the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.
-```r
+
+``` r
 #Load the dataset
 library(scRNAseq)
 library(AnnotationHub)
 
 sce.nest <- NestorowaHSCData()
 
-<<<<<<< Updated upstream
 # Annotation
-ens.mm.v97 <- AnnotationHub()[["AH73905"]]
-anno <- select(ens.mm.v97, keys=rownames(sce.nest), 
-    keytype="GENEID", columns=c("SYMBOL", "SEQNAME"))
-rowData(sce.nest) <- anno[match(rownames(sce.nest), anno$GENEID),]
-
-#Inspect the resulting SingleCellExperiment object
-sce.nest
-```
-=======
-``` r
-library(scRNAseq)
-library(AnnotationHub)
-
-sce.nest <- NestorowaHSCData()
-
 ens.mm.v97 <- AnnotationHub()[["AH73905"]]
 anno <- select(ens.mm.v97, keys=rownames(sce.nest), 
     keytype="GENEID", columns=c("SYMBOL", "SEQNAME"))
@@ -80,7 +58,6 @@ sce.nest
     reducedDimNames(1): diffusion
     mainExpName: endogenous
     altExpNames(2): ERCC FACS
->>>>>>> Stashed changes
 
 We used the Nestorowa hematopoietic stem cell single-cell RNA-seq
 dataset from the scRNAseq Bioconductor package. The dataset contains
@@ -373,6 +350,7 @@ Hebp1, and hemoglobin-related genes suggests that cluster 8 represents
 erythroid precursor cells.
 
 ``` r
+library(pheatmap)
 chosen <- markers[['8']]
 best <- chosen[chosen$Top <= 10,] # Keep top 10 marker genes
 aucs <- getMarkerEffects(best, prefix="AUC") # Extract AUC values
@@ -403,7 +381,8 @@ from marker gene analysis.
 
 ``` r
 library(SingleR)
-mm.ref <- MouseRNAseqData() #reference dataset (MouseRNAseqData) contains known expression profiles of mouse cell types
+library(celldex)
+mm.ref <- celldex::MouseRNAseqData() #reference dataset (MouseRNAseqData) contains known expression profiles of mouse cell types
 
 # Renaming to symbols to match with reference row names.
 renamed <- sce.nest
@@ -433,3 +412,16 @@ pheatmap(
 7: Heatmap of the distribution of cells for each cluster in the
 Nestorowa HSC dataset, based on their assignment to each label in the
 mouse RNA-seq references from the SingleR package.*
+
+# References
+
+Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for
+low-level analysis of single-cell RNA-seq data with Bioconductor
+\[version 2; peer review: 3 approved, 2 approved with reservations\].
+F1000Research 2016, 5:2122
+(https://doi.org/10.12688/f1000research.9501.2)
+
+Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E.
+Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A
+single-cell resolution map of mouse hematopoietic stem and progenitor
+cell differentiation.” Blood 128 (8): 20–31.

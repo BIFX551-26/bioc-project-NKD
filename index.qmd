@@ -263,12 +263,6 @@ best <- chosen[chosen$Top <= 10,] # Keep top 10 marker genes
 aucs <- getMarkerEffects(best, prefix="AUC") # Extract AUC values
 rownames(aucs) <- best$SYMBOL # Fix: ensure unique rownames
 
-<<<<<<< Updated upstream
-png("images/marker_heatmap_cluster8.png", width = 600, height = 900)
-
-pheatmap(aucs, color=viridis::plasma(100))
-dev.off()
-=======
 library(pheatmap)
 pheatmap(
   aucs,
@@ -277,7 +271,6 @@ pheatmap(
   width = 6,
   height = 9
 )
->>>>>>> Stashed changes
 ```
 
 ![Marker Heatmap](images/marker_heatmap_cluster8.png) *Figure 6: Heatmap of the AUCs for the top marker genes in cluster 8 compared to all other clusters.*
@@ -304,12 +297,6 @@ To summarize results, a table was created comparing predicted labels with cluste
 
 ```{r}
 #| results: 'hide'
-<<<<<<< Updated upstream
-#| fig.show: 'hide'
-png("images/celltype_annotation_heatmap.png", width = 600, height = 500)
-
-=======
->>>>>>> Stashed changes
 tab <- table(labels$labels, colLabels(sce.nest))
 pheatmap(
   log10(tab + 10),
@@ -321,9 +308,6 @@ pheatmap(
 
 ```
 
-<<<<<<< Updated upstream
-
-
 ![Cell Type Annotation](images/celltype_annotation_heatmap.png)
 *Figure 7: Heatmap of the distribution of cells for each cluster in the Nestorowa HSC dataset, based on their assignment to each label in the mouse RNA-seq references from the SingleR package.*
 
@@ -332,7 +316,3 @@ pheatmap(
 Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor [version 2; peer review: 3 approved, 2 approved with reservations]. F1000Research 2016, 5:2122 (https://doi.org/10.12688/f1000research.9501.2)
 
 Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E. Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A single-cell resolution map of mouse hematopoietic stem and progenitor cell differentiation.” Blood 128 (8): 20–31.
-=======
-![Cell Type Annotation](images/celltype_annotation_heatmap.png) 
-*Figure 7: Heatmap of the distribution of cells for each cluster in the Nestorowa HSC dataset, based on their assignment to each label in the mouse RNA-seq references from the SingleR package.*
->>>>>>> Stashed changes
