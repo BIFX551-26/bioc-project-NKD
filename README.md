@@ -10,162 +10,37 @@ used to detect changes in gene expression during the onset and
 progression of diseases or treatment response.
 
 ## Package Installation
+ ```r
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
 
-Here is the code to install the simpleSingleCell package
-
-    Bioconductor version '3.22' is out-of-date; the current release version '3.23'
-      is available with R version '4.6'; see https://bioconductor.org/install
-
-    Bioconductor version 3.22 (BiocManager 1.30.27), R 4.5.3 (2026-03-11 ucrt)
-
-    Warning: package(s) not installed when version(s) same as or greater than current; use
-      `force = TRUE` to re-install: 'scRNAseq'
-
-    Installation paths not writeable, unable to update packages
-      path: C:/Program Files/R/R-4.5.3/library
-      packages:
-        Matrix, nlme, rpart
+BiocManager::install(c(
+   "scRNAseq", "AnnotationHub", "scater", "scran", "SingleR", "celldex",
+   "pheatmap", "viridis", "gridExtra", "igraph"
+ ))
+ ```
 
 ## Data Overview
+The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2. 
 
 ## Data Loading an Annotation
+We used the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.
+```r
+#Load the dataset
+library(scRNAseq)
+library(AnnotationHub)
 
-The data that was chosen for this analysis was a mouse haematopoetic
-stem cell (HSC) dataset generated with Smart-seq2.
+sce.nest <- NestorowaHSCData()
 
-    Loading required package: SingleCellExperiment
+# Annotation
+ens.mm.v97 <- AnnotationHub()[["AH73905"]]
+anno <- select(ens.mm.v97, keys=rownames(sce.nest), 
+    keytype="GENEID", columns=c("SYMBOL", "SEQNAME"))
+rowData(sce.nest) <- anno[match(rownames(sce.nest), anno$GENEID),]
 
-    Loading required package: SummarizedExperiment
-
-    Loading required package: MatrixGenerics
-
-    Loading required package: matrixStats
-
-
-    Attaching package: 'MatrixGenerics'
-
-    The following objects are masked from 'package:matrixStats':
-
-        colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
-        colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
-        colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
-        colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
-        colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
-        colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
-        colWeightedMeans, colWeightedMedians, colWeightedSds,
-        colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
-        rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
-        rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
-        rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
-        rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
-        rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
-        rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
-        rowWeightedSds, rowWeightedVars
-
-    Loading required package: GenomicRanges
-
-    Loading required package: stats4
-
-    Loading required package: BiocGenerics
-
-    Loading required package: generics
-
-
-    Attaching package: 'generics'
-
-    The following objects are masked from 'package:base':
-
-        as.difftime, as.factor, as.ordered, intersect, is.element, setdiff,
-        setequal, union
-
-
-    Attaching package: 'BiocGenerics'
-
-    The following objects are masked from 'package:stats':
-
-        IQR, mad, sd, var, xtabs
-
-    The following objects are masked from 'package:base':
-
-        anyDuplicated, aperm, append, as.data.frame, basename, cbind,
-        colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
-        get, grep, grepl, is.unsorted, lapply, Map, mapply, match, mget,
-        order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-        rbind, Reduce, rownames, sapply, saveRDS, table, tapply, unique,
-        unsplit, which.max, which.min
-
-    Loading required package: S4Vectors
-
-
-    Attaching package: 'S4Vectors'
-
-    The following object is masked from 'package:utils':
-
-        findMatches
-
-    The following objects are masked from 'package:base':
-
-        expand.grid, I, unname
-
-    Loading required package: IRanges
-
-
-    Attaching package: 'IRanges'
-
-    The following object is masked from 'package:grDevices':
-
-        windows
-
-    Loading required package: Seqinfo
-
-    Loading required package: Biobase
-
-    Welcome to Bioconductor
-
-        Vignettes contain introductory material; view with
-        'browseVignettes()'. To cite Bioconductor, see
-        'citation("Biobase")', and for packages 'citation("pkgname")'.
-
-
-    Attaching package: 'Biobase'
-
-    The following object is masked from 'package:MatrixGenerics':
-
-        rowMedians
-
-    The following objects are masked from 'package:matrixStats':
-
-        anyMissing, rowMedians
-
-    Loading required package: BiocFileCache
-
-    Loading required package: dbplyr
-
-
-    Attaching package: 'AnnotationHub'
-
-    The following object is masked from 'package:Biobase':
-
-        cache
-
-    loading from cache
-
-    require("ensembldb")
-
-    loading from cache
-
-    class: SingleCellExperiment 
-    dim: 46078 1920 
-    metadata(0):
-    assays(1): counts
-    rownames(46078): ENSMUSG00000000001 ENSMUSG00000000003 ...
-      ENSMUSG00000107391 ENSMUSG00000107392
-    rowData names(3): GENEID SYMBOL SEQNAME
-    colnames(1920): HSPC_007 HSPC_013 ... Prog_852 Prog_810
-    colData names(9): gate broad ... projected metrics
-    reducedDimNames(1): diffusion
-    mainExpName: endogenous
-    altExpNames(2): ERCC FACS
+#Inspect the resulting SingleCellExperiment object
+sce.nest
+```
 
 We used the Nestorowa hematopoietic stem cell single-cell RNA-seq
 dataset from the scRNAseq Bioconductor package. The dataset contains
