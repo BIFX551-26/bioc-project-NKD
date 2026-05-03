@@ -14,27 +14,32 @@ Single cell RNA sequencing measures gene expression in individual cells. It is a
 
 ## Package Installation
 
-Here is the code to install the simpleSingleCell package
+Here is the code to install the various dependencies
 
 ```{r}
+#| eval: false
 if (!require("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("scRNAseq")
+BiocManager::install(c(
+   "scRNAseq", "AnnotationHub", "scater", "scran", "SingleR", "celldex",
+   "pheatmap", "viridis", "gridExtra", "igraph"
+ ))
 ```
 
 ## Data Overview
+The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2. 
 
 ## Data Loading an Annotation
 
-The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2.
-
 ```{r}
+#Load the dataset
 library(scRNAseq)
 library(AnnotationHub)
 
 sce.nest <- NestorowaHSCData()
 
+# Annotation
 ens.mm.v97 <- AnnotationHub()[["AH73905"]]
 anno <- select(ens.mm.v97, keys=rownames(sce.nest), 
     keytype="GENEID", columns=c("SYMBOL", "SEQNAME"))
@@ -246,16 +251,16 @@ To illustrate the manual annotation process, marker genes for one cluster were e
 
 ```{r}
 #| results: 'hide'
+#| fig.show: 'hide'
+library(pheatmap)
 chosen <- markers[['8']]
 best <- chosen[chosen$Top <= 10,] # Keep top 10 marker genes
 aucs <- getMarkerEffects(best, prefix="AUC") # Extract AUC values
 rownames(aucs) <- best$SYMBOL # Fix: ensure unique rownames
 
-library(pheatmap)
 png("images/marker_heatmap_cluster8.png", width = 600, height = 900)
 
 pheatmap(aucs, color=viridis::plasma(100))
-
 dev.off()
 ```
 
@@ -270,7 +275,8 @@ Annotation was performed using the SingleR package. Single-cell clustering ident
 
 ```{r}
 library(SingleR)
-mm.ref <- MouseRNAseqData() #reference dataset (MouseRNAseqData) contains known expression profiles of mouse cell types
+library(celldex)
+mm.ref <- celldex::MouseRNAseqData() #reference dataset (MouseRNAseqData) contains known expression profiles of mouse cell types
 
 # Renaming to symbols to match with reference row names.
 renamed <- sce.nest
@@ -285,6 +291,7 @@ To summarize results, a table was created comparing predicted labels with cluste
 
 ```{r}
 #| results: 'hide'
+#| fig.show: 'hide'
 png("images/celltype_annotation_heatmap.png", width = 600, height = 500)
 
 tab <- table(labels$labels, colLabels(sce.nest))
@@ -297,3 +304,9 @@ dev.off()
 
 ![Cell Type Annotation](images/celltype_annotation_heatmap.png)
 *Figure 7: Heatmap of the distribution of cells for each cluster in the Nestorowa HSC dataset, based on their assignment to each label in the mouse RNA-seq references from the SingleR package.*
+
+
+# References
+Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor [version 2; peer review: 3 approved, 2 approved with reservations]. F1000Research 2016, 5:2122 (https://doi.org/10.12688/f1000research.9501.2)
+
+Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E. Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A single-cell resolution map of mouse hematopoietic stem and progenitor cell differentiation.” Blood 128 (8): 20–31.
