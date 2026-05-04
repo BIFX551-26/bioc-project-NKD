@@ -1,14 +1,15 @@
-# Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and Progenitor Cells Using Bioconductor
-**Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood**
+# Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and
+Progenitor Cells Using Bioconductor
+Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood
 
-## Introduction
+## INTRODUCTION
 
 Single cell RNA sequencing measures gene expression in individual cells.
 It is able to provide significant insight on cellular diverstiy as it is
 used to detect changes in gene expression during the onset and
 progression of diseases or treatment response.
 
-## Package Installation
+## PACKAGE INSTALLATION
 
 Here is the code to install the various dependencies
 
@@ -22,12 +23,18 @@ BiocManager::install(c(
  ))
 ```
 
-## Data Overview
+## DATA OVERVIEW
 
-The data that was chosen for this analysis was a mouse haematopoetic
-stem cell (HSC) dataset generated with Smart-seq2.
+The data that was chosen for this analysis was a the Nestorowa
+hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq
+Bioconductor package. The dataset contains 46,078 genes across 1,920
+cells and is stored as a SingleCellExperiment object, eliminates the
+need for raw data import and ensures a standardized structure where
+counts, gene annotations, and cell metadata are already, which allowed
+us to perform quality control, annotation, normalization, and
+visualization using standard Bioconductor tools.
 
-## Data Loading an Annotation
+## DATA LOADING AND ANNOTATION
 
 ``` r
 #Load the dataset
@@ -58,14 +65,6 @@ sce.nest
     reducedDimNames(1): diffusion
     mainExpName: endogenous
     altExpNames(2): ERCC FACS
-
-We used the Nestorowa hematopoietic stem cell single-cell RNA-seq
-dataset from the scRNAseq Bioconductor package. The dataset contains
-46,078 genes across 1,920 cells and is stored as a SingleCellExperiment
-object, eliminates the need for raw data import and ensures a
-standardized structure where counts, gene annotations, and cell metadata
-are already, which allowed us to perform quality control, annotation,
-normalization, and visualization using standard Bioconductor tools.
 
 ## METHOD OVERVIEW OF WORKFLOW
 
@@ -413,7 +412,7 @@ pheatmap(
 Nestorowa HSC dataset, based on their assignment to each label in the
 mouse RNA-seq references from the SingleR package.*
 
-# References
+### REFERENCES
 
 Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for
 low-level analysis of single-cell RNA-seq data with Bioconductor

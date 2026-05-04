@@ -15,11 +15,11 @@ execute:
   warning: false
 ---
 
-## Introduction
+## INTRODUCTION
 
 Single cell RNA sequencing measures gene expression in individual cells. It is able to provide significant insight on cellular diverstiy as it is used to detect changes in gene expression during the onset and progression of diseases or treatment response.
 
-## Package Installation
+## PACKAGE INSTALLATION
 
 Here is the code to install the various dependencies
 
@@ -34,10 +34,10 @@ BiocManager::install(c(
  ))
 ```
 
-## Data Overview
-The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2. 
+## DATA OVERVIEW
+The data that was chosen for this analysis was a the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.
 
-## Data Loading an Annotation
+## DATA LOADING AND ANNOTATION
 
 ```{r}
 #Load the dataset
@@ -56,7 +56,7 @@ rowData(sce.nest) <- anno[match(rownames(sce.nest), anno$GENEID),]
 sce.nest
 ```
 
-We used the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.
+
 
 ## METHOD OVERVIEW OF WORKFLOW
 
@@ -311,8 +311,7 @@ pheatmap(
 ![Cell Type Annotation](images/celltype_annotation_heatmap.png)
 *Figure 7: Heatmap of the distribution of cells for each cluster in the Nestorowa HSC dataset, based on their assignment to each label in the mouse RNA-seq references from the SingleR package.*
 
-
-# References
+### REFERENCES
 Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor [version 2; peer review: 3 approved, 2 approved with reservations]. F1000Research 2016, 5:2122 (https://doi.org/10.12688/f1000research.9501.2)
 
 Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E. Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A single-cell resolution map of mouse hematopoietic stem and progenitor cell differentiation.” Blood 128 (8): 20–31.
