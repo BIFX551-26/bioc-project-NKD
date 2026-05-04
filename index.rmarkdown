@@ -1,6 +1,7 @@
 ---
 title: "Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and Progenitor Cells Using Bioconductor"
 author: "Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood"
+#bibliography: references.bib
 format:
   gfm:
     output-file: README.md
@@ -14,11 +15,11 @@ execute:
   warning: false
 ---
 
-## INTRODUCTION
+## Introduction
 
 Single cell RNA sequencing measures gene expression in individual cells. It is able to provide significant insight on cellular diverstiy as it is used to detect changes in gene expression during the onset and progression of diseases or treatment response.
 
-## PACKAGE INSTALLATION
+## Package Installation
 
 Here is the code to install the various dependencies
 
@@ -33,10 +34,10 @@ BiocManager::install(c(
  ))
 ```
 
-## DATA OVERVIEW
-The data that was chosen for this analysis was a the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.
+## Data Overview
+The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2. 
 
-## DATA LOADING AND ANNOTATION
+## Data Loading an Annotation
 
 ```{r}
 #Load the dataset
@@ -55,7 +56,7 @@ rowData(sce.nest) <- anno[match(rownames(sce.nest), anno$GENEID),]
 sce.nest
 ```
 
-
+We used the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.
 
 ## METHOD OVERVIEW OF WORKFLOW
 
@@ -293,11 +294,7 @@ rownames(renamed) <- uniquifyFeatureNames(rownames(renamed),
 labels <- SingleR(renamed, mm.ref, labels=mm.ref$label.fine)
 ```
 
-<<<<<<< Updated upstream
-To summarize results, a table was created comparing predicted labels with cluster assignments, Higher values indicate stronger agreement between cluster identity and reference-based annotation. Most clusters show overlapping lineage assignments rather than a single identity, reflecting the transitional nature of hematopoietic cells. Several clusters, particularly 1, 9, and 10, display strong similarity to erythrocyte profiles, consistent with the marker gene analysis identifying erythroid populations.
-=======
 To summarize results, a table was created comparing predicted labels with cluster assignments, higher values indicate stronger agreement between cluster identity and reference-based annotation. Most clusters show overlapping lineage assignments rather than a single identity, reflecting the transitional nature of hematopoietic cells. Several clusters, particularly 1, 9, and 10, display strong similarity to erythrocyte profiles, consistent with the marker gene analysis identifying erythroid populations.
->>>>>>> Stashed changes
 
 ```{r}
 #| results: 'hide'
@@ -321,21 +318,6 @@ pheatmap(
 - Gained experience working with SingleCellExperiment and structured biological data
 - Understood how preprocessing reduces bias and improves downstream analysis
 - Applied dimensionality reduction and visualization techniques (PCA, t-SNE)
-<<<<<<< Updated upstream
-=======
-
-### What interesting things were learned from the data?
-- Identified multiple distinct cell populations, showing heterogeneity in the dataset
-- Found that only a subset of genes drives major biological variation
-- Detected erythroid precursor cells based on marker gene expression (Car2, Hebp1, hemoglobin genes)
-- Observed that transcriptional differences are more informative than protein-level variation
-
-### What challenges were encountered?
-- Faced package installation and dependency issues (Bioconductor, SSL errors)
-- Encountered data and plotting errors (NA values, dimension mismatches)
-- Managed complexity of multiple variables and intermediate objects
-- Dealt with formatting issues in Quarto (figure placement, spacing, captions)
->>>>>>> Stashed changes
 
 ### What interesting things were learned from the data?
 - Identified multiple distinct cell populations, showing heterogeneity in the dataset
@@ -349,7 +331,8 @@ pheatmap(
 - Managed complexity of multiple variables and intermediate objects
 - Dealt with formatting issues in Quarto (figure placement, spacing, captions)
 
-### REFERENCES
+# References
 Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor [version 2; peer review: 3 approved, 2 approved with reservations]. F1000Research 2016, 5:2122 (https://doi.org/10.12688/f1000research.9501.2)
 
 Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E. Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A single-cell resolution map of mouse hematopoietic stem and progenitor cell differentiation.” Blood 128 (8): 20–31.
+

@@ -1,5 +1,6 @@
-# Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and Progenitor Cells Using Bioconductor
-**Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood**
+# Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and
+Progenitor Cells Using Bioconductor
+Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood
 
 ## INTRODUCTION
 
@@ -340,16 +341,16 @@ markers <- findMarkers(sce.nest, colLabels(sce.nest),
 
 To illustrate the manual annotation process, marker genes for one
 cluster were examined. In this example, marker gene results for cluster
-8 were selected, and the top-ranked genes were retained. Their AUC
+9 were selected, and the top-ranked genes were retained. Their AUC
 values were extracted to assess how well each gene distinguishes cluster
-8 from other clusters. Genes with higher AUC values provide better
+9 from other clusters. Genes with higher AUC values provide better
 separation of this cluster. The upregulation of genes such as Car2,
-Hebp1, and hemoglobin-related genes suggests that cluster 8 represents
+Hebp1, and hemoglobin-related genes suggests that cluster 9 represents
 erythroid precursor cells.
 
 ``` r
 library(pheatmap)
-chosen <- markers[['8']]
+chosen <- markers[['9']]
 best <- chosen[chosen$Top <= 10,] # Keep top 10 marker genes
 aucs <- getMarkerEffects(best, prefix="AUC") # Extract AUC values
 rownames(aucs) <- best$SYMBOL # Fix: ensure unique rownames
@@ -358,14 +359,14 @@ library(pheatmap)
 pheatmap(
   aucs,
   color = viridis::plasma(100),
-  filename = "images/marker_heatmap_cluster8.png",
+  filename = "images/marker_heatmap_cluster9.png",
   width = 6,
   height = 9
 )
 ```
 
-![Marker Heatmap](images/marker_heatmap_cluster8.png) *Figure 6: Heatmap
-of the AUCs for the top marker genes in cluster 8 compared to all other
+![Marker Heatmap](images/marker_heatmap_cluster9.png) *Figure 6: Heatmap
+of the AUCs for the top marker genes in cluster 9 compared to all other
 clusters.*
 
 ### Cell Type Annotation
@@ -392,7 +393,11 @@ labels <- SingleR(renamed, mm.ref, labels=mm.ref$label.fine)
 ```
 
 To summarize results, a table was created comparing predicted labels
+<<<<<<< Updated upstream
 with cluster assignments, Higher values indicate stronger agreement
+=======
+with cluster assignments, higher values indicate stronger agreement
+>>>>>>> Stashed changes
 between cluster identity and reference-based annotation. Most clusters
 show overlapping lineage assignments rather than a single identity,
 reflecting the transitional nature of hematopoietic cells. Several
@@ -427,20 +432,28 @@ mouse RNA-seq references from the SingleR package.*
 - Understood how preprocessing reduces bias and improves downstream
   analysis
 - Applied dimensionality reduction and visualization techniques (PCA,
+<<<<<<< Updated upstream
   t-SNE)
 
 ### What interesting things were learned from the data?
 
+=======
+  t-SNE) \### What interesting things were learned from the data?
+>>>>>>> Stashed changes
 - Identified multiple distinct cell populations, showing heterogeneity
   in the dataset
 - Found that only a subset of genes drives major biological variation
 - Detected erythroid precursor cells based on marker gene expression
   (Car2, Hebp1, hemoglobin genes)
 - Observed that transcriptional differences are more informative than
+<<<<<<< Updated upstream
   protein-level variation
 
 ### What challenges were encountered?
 
+=======
+  protein-level variation \### What challenges were encountered?
+>>>>>>> Stashed changes
 - Faced package installation and dependency issues (Bioconductor, SSL
   errors)
 - Encountered data and plotting errors (NA values, dimension mismatches)
@@ -448,7 +461,11 @@ mouse RNA-seq references from the SingleR package.*
 - Dealt with formatting issues in Quarto (figure placement, spacing,
   captions)
 
+<<<<<<< Updated upstream
 ### REFERENCES
+=======
+# References
+>>>>>>> Stashed changes
 
 Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for
 low-level analysis of single-cell RNA-seq data with Bioconductor
