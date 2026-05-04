@@ -1,6 +1,5 @@
-# Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and
-Progenitor Cells Using Bioconductor
-Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood
+# Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and Progenitor Cells Using Bioconductor
+**Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood**
 
 ## INTRODUCTION
 
@@ -394,7 +393,12 @@ labels <- SingleR(renamed, mm.ref, labels=mm.ref$label.fine)
 
 To summarize results, a table was created comparing predicted labels
 with cluster assignments, Higher values indicate stronger agreement
-between cluster identity and reference-based annotation:
+between cluster identity and reference-based annotation. Most clusters
+show overlapping lineage assignments rather than a single identity,
+reflecting the transitional nature of hematopoietic cells. Several
+clusters, particularly 1, 9, and 10, display strong similarity to
+erythrocyte profiles, consistent with the marker gene analysis
+identifying erythroid populations.
 
 ``` r
 tab <- table(labels$labels, colLabels(sce.nest))
@@ -411,6 +415,38 @@ pheatmap(
 7: Heatmap of the distribution of cells for each cluster in the
 Nestorowa HSC dataset, based on their assignment to each label in the
 mouse RNA-seq references from the SingleR package.*
+
+## Conclusion
+
+### What interesting things / skills were learned?
+
+- Learned the full single-cell RNA-seq workflow using Bioconductor (QC,
+  normalization, clustering, annotation)
+- Gained experience working with SingleCellExperiment and structured
+  biological data
+- Understood how preprocessing reduces bias and improves downstream
+  analysis
+- Applied dimensionality reduction and visualization techniques (PCA,
+  t-SNE)
+
+### What interesting things were learned from the data?
+
+- Identified multiple distinct cell populations, showing heterogeneity
+  in the dataset
+- Found that only a subset of genes drives major biological variation
+- Detected erythroid precursor cells based on marker gene expression
+  (Car2, Hebp1, hemoglobin genes)
+- Observed that transcriptional differences are more informative than
+  protein-level variation
+
+### What challenges were encountered?
+
+- Faced package installation and dependency issues (Bioconductor, SSL
+  errors)
+- Encountered data and plotting errors (NA values, dimension mismatches)
+- Managed complexity of multiple variables and intermediate objects
+- Dealt with formatting issues in Quarto (figure placement, spacing,
+  captions)
 
 ### REFERENCES
 

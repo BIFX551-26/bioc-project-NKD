@@ -87,11 +87,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and Progenitor Cells Using Bioconductor</h1>
 <p><strong>Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood</strong></p>
 <section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<h2 class="anchored" data-anchor-id="introduction">INTRODUCTION</h2>
 <p>Single cell RNA sequencing measures gene expression in individual cells. It is able to provide significant insight on cellular diverstiy as it is used to detect changes in gene expression during the onset and progression of diseases or treatment response.</p>
 </section>
 <section id="package-installation" class="level2">
-<h2 class="anchored" data-anchor-id="package-installation">Package Installation</h2>
+<h2 class="anchored" data-anchor-id="package-installation">PACKAGE INSTALLATION</h2>
 <p>Here is the code to install the various dependencies</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
@@ -102,11 +102,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a> ))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="data-overview" class="level2">
-<h2 class="anchored" data-anchor-id="data-overview">Data Overview</h2>
-<p>The data that was chosen for this analysis was a mouse haematopoetic stem cell (HSC) dataset generated with Smart-seq2.</p>
+<h2 class="anchored" data-anchor-id="data-overview">DATA OVERVIEW</h2>
+<p>The data that was chosen for this analysis was a the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.</p>
 </section>
-<section id="data-loading-an-annotation" class="level2">
-<h2 class="anchored" data-anchor-id="data-loading-an-annotation">Data Loading an Annotation</h2>
+<section id="data-loading-and-annotation" class="level2">
+<h2 class="anchored" data-anchor-id="data-loading-and-annotation">DATA LOADING AND ANNOTATION</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Load the dataset</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scRNAseq)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AnnotationHub)</span>
@@ -133,7 +133,6 @@ colData names(9): gate broad ... projected metrics
 reducedDimNames(1): diffusion
 mainExpName: endogenous
 altExpNames(2): ERCC FACS</code></pre>
-<p>We used the Nestorowa hematopoietic stem cell single-cell RNA-seq dataset from the scRNAseq Bioconductor package. The dataset contains 46,078 genes across 1,920 cells and is stored as a SingleCellExperiment object, eliminates the need for raw data import and ensures a standardized structure where counts, gene annotations, and cell metadata are already, which allowed us to perform quality control, annotation, normalization, and visualization using standard Bioconductor tools.</p>
 </section>
 <section id="method-overview-of-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="method-overview-of-workflow">METHOD OVERVIEW OF WORKFLOW</h2>
@@ -306,7 +305,7 @@ altExpNames(2): ERCC FACS</code></pre>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Compares each cell’s expression profile to the reference and assigns the most likely cell type label</span></span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">SingleR</span>(renamed, mm.ref, <span class="at">labels=</span>mm.ref<span class="sc">$</span>label.fine)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To summarize results, a table was created comparing predicted labels with cluster assignments, Higher values indicate stronger agreement between cluster identity and reference-based annotation:</p>
+<p>To summarize results, a table was created comparing predicted labels with cluster assignments, Higher values indicate stronger agreement between cluster identity and reference-based annotation. Most clusters show overlapping lineage assignments rather than a single identity, reflecting the transitional nature of hematopoietic cells. Several clusters, particularly 1, 9, and 10, display strong similarity to erythrocyte profiles, consistent with the marker gene analysis identifying erythroid populations.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(labels<span class="sc">$</span>labels, <span class="fu">colLabels</span>(sce.nest))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">log10</span>(tab <span class="sc">+</span> <span class="dv">10</span>),</span>
@@ -318,11 +317,41 @@ altExpNames(2): ERCC FACS</code></pre>
 <p><img src="images/celltype_annotation_heatmap.png" class="img-fluid" alt="Cell Type Annotation"> <em>Figure 7: Heatmap of the distribution of cells for each cluster in the Nestorowa HSC dataset, based on their assignment to each label in the mouse RNA-seq references from the SingleR package.</em></p>
 </section>
 </section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<section id="what-interesting-things-skills-were-learned" class="level3">
+<h3 class="anchored" data-anchor-id="what-interesting-things-skills-were-learned">What interesting things / skills were learned?</h3>
+<ul>
+<li>Learned the full single-cell RNA-seq workflow using Bioconductor (QC, normalization, clustering, annotation)</li>
+<li>Gained experience working with SingleCellExperiment and structured biological data</li>
+<li>Understood how preprocessing reduces bias and improves downstream analysis</li>
+<li>Applied dimensionality reduction and visualization techniques (PCA, t-SNE)</li>
+</ul>
 </section>
-<section id="references" class="level1">
-<h1>References</h1>
+<section id="what-interesting-things-were-learned-from-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="what-interesting-things-were-learned-from-the-data">What interesting things were learned from the data?</h3>
+<ul>
+<li>Identified multiple distinct cell populations, showing heterogeneity in the dataset</li>
+<li>Found that only a subset of genes drives major biological variation</li>
+<li>Detected erythroid precursor cells based on marker gene expression (Car2, Hebp1, hemoglobin genes)</li>
+<li>Observed that transcriptional differences are more informative than protein-level variation</li>
+</ul>
+</section>
+<section id="what-challenges-were-encountered" class="level3">
+<h3 class="anchored" data-anchor-id="what-challenges-were-encountered">What challenges were encountered?</h3>
+<ul>
+<li>Faced package installation and dependency issues (Bioconductor, SSL errors)</li>
+<li>Encountered data and plotting errors (NA values, dimension mismatches)</li>
+<li>Managed complexity of multiple variables and intermediate objects</li>
+<li>Dealt with formatting issues in Quarto (figure placement, spacing, captions)</li>
+</ul>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">REFERENCES</h3>
 <p>Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for low-level analysis of single-cell RNA-seq data with Bioconductor [version 2; peer review: 3 approved, 2 approved with reservations]. F1000Research 2016, 5:2122 (https://doi.org/10.12688/f1000research.9501.2)</p>
 <p>Nestorowa, S., F. K. Hamey, B. Pijuan Sala, E. Diamanti, M. Shepherd, E. Laurenti, N. K. Wilson, D. G. Kent, and B. Gottgens. 2016. “A single-cell resolution map of mouse hematopoietic stem and progenitor cell differentiation.” Blood 128 (8): 20–31.</p>
+</section>
+</section>
 </section>
 
 </main>
