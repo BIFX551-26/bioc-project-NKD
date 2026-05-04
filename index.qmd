@@ -1,6 +1,6 @@
 ---
 title: "Single-cell RNA-seq Analysis of Mouse haematopoietic stem cell Using Bioconductor"
-author: "Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood"
+author: "Kwesi Kumi, Noah Cupp, Duong Nguyen"
 format:
   gfm:
     output-file: README.md
@@ -63,7 +63,7 @@ Overview of the framework of a typical scRNA-seq analysis workflow ![scRNA-seq w
 
 *Figure 1: Overview of the single-cell RNA-seq analysis workflow adapted from a Bioconductor pipeline.*
 
-No count loading step was required in this analysis because the Nestorowa dataset was accessed directly through the scRNAseq package as a pre-constructed SingleCellExperiment object. This means the data is already loaded and pre-processed, with counts stored in memory, rows representing genes, columns representing individual cells, and associated metadata already included within the object. Unlike the original workflow that begins with manually importing raw count files from GEO , this approach allows us to skip data loading and focus directly on downstream analysis steps such as quality control, normalization, and visualization.
+No count loading step was required in this analysis because the Nestorowa dataset was accessed directly through the scRNAseq package as a pre-constructed SingleCellExperiment object. This means the data is already loaded and pre-processed, with counts stored in memory, rows representing genes, columns representing individual cells, and associated metadata already included within the object. Unlike the original workflow that begins with manually importing raw count files, this approach allows us to skip data loading and focus directly on downstream analysis steps such as quality control, normalization, and visualization.
 
 ### Quality Control
 
