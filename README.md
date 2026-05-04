@@ -79,8 +79,7 @@ a pre-constructed SingleCellExperiment object. This means the data is
 already loaded and pre-processed, with counts stored in memory, rows
 representing genes, columns representing individual cells, and
 associated metadata already included within the object. Unlike the
-original workflow that begins with manually importing raw count files
-from GEO , this approach allows us to skip data loading and focus
+original workflow that begins with manually importing raw count files, this approach allows us to skip data loading and focus
 directly on downstream analysis steps such as quality control,
 normalization, and visualization.
 
