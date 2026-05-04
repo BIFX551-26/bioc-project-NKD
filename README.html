@@ -83,8 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="single-cell-rna-seq-analysis-of-mouse-hematopoietic-stem-and-progenitor-cells-using-bioconductor" class="level1">
-<h1>Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and Progenitor Cells Using Bioconductor</h1>
+<section id="single-cell-rna-seq-analysis-of-mouse-haematopoietic-stem-cells-using-bioconductor" class="level1">
+<h1>Single-cell RNA-seq Analysis of Mouse Haematopoietic Stem Cells Using Bioconductor</h1>
 <p><strong>Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood</strong></p>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">INTRODUCTION</h2>
@@ -274,9 +274,9 @@ altExpNames(2): ERCC FACS</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">findMarkers</span>(sce.nest, <span class="fu">colLabels</span>(sce.nest), </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">test.type=</span><span class="st">"wilcox"</span>, <span class="at">direction=</span><span class="st">"up"</span>, <span class="at">lfc=</span><span class="fl">0.5</span>,</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.data=</span><span class="fu">rowData</span>(sce.nest)[,<span class="st">"SYMBOL"</span>,<span class="at">drop=</span><span class="cn">FALSE</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To illustrate the manual annotation process, marker genes for one cluster were examined. In this example, marker gene results for cluster 8 were selected, and the top-ranked genes were retained. Their AUC values were extracted to assess how well each gene distinguishes cluster 8 from other clusters. Genes with higher AUC values provide better separation of this cluster. The upregulation of genes such as Car2, Hebp1, and hemoglobin-related genes suggests that cluster 8 represents erythroid precursor cells.</p>
+<p>To illustrate the manual annotation process, marker genes for one cluster were examined. In this example, marker gene results for cluster 9 were selected, and the top-ranked genes were retained. Their AUC values were extracted to assess how well each gene distinguishes cluster 9 from other clusters. Genes with higher AUC values provide better separation of this cluster. The upregulation of genes such as Car2, Hebp1, and hemoglobin-related genes suggests that cluster 9 represents erythroid precursor cells.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>chosen <span class="ot">&lt;-</span> markers[[<span class="st">'8'</span>]]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>chosen <span class="ot">&lt;-</span> markers[[<span class="st">'9'</span>]]</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>best <span class="ot">&lt;-</span> chosen[chosen<span class="sc">$</span>Top <span class="sc">&lt;=</span> <span class="dv">10</span>,] <span class="co"># Keep top 10 marker genes</span></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>aucs <span class="ot">&lt;-</span> <span class="fu">getMarkerEffects</span>(best, <span class="at">prefix=</span><span class="st">"AUC"</span>) <span class="co"># Extract AUC values</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(aucs) <span class="ot">&lt;-</span> best<span class="sc">$</span>SYMBOL <span class="co"># Fix: ensure unique rownames</span></span>
@@ -285,11 +285,11 @@ altExpNames(2): ERCC FACS</code></pre>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(</span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  aucs,</span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">100</span>),</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="st">"images/marker_heatmap_cluster8.png"</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="st">"images/marker_heatmap_cluster9.png"</span>,</span>
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">6</span>,</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">height =</span> <span class="dv">9</span></span>
 <span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><img src="images/marker_heatmap_cluster8.png" class="img-fluid" alt="Marker Heatmap"> <em>Figure 6: Heatmap of the AUCs for the top marker genes in cluster 8 compared to all other clusters.</em></p>
+<p><img src="images/marker_heatmap_cluster9.png" class="img-fluid" alt="Marker Heatmap"> <em>Figure 6: Heatmap of the AUCs for the top marker genes in cluster 9 compared to all other clusters.</em></p>
 </section>
 <section id="cell-type-annotation" class="level3">
 <h3 class="anchored" data-anchor-id="cell-type-annotation">Cell Type Annotation</h3>

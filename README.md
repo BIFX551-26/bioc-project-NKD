@@ -1,6 +1,5 @@
-# Single-cell RNA-seq Analysis of Mouse Hematopoietic Stem and
-Progenitor Cells Using Bioconductor
-Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood
+# Single-cell RNA-seq Analysis of Mouse Haematopoietic Stem Cells Using Bioconductor
+**Kwesi Kumi, Noah Cupp, Duong Nguyen, Kashif Mashood**
 
 ## INTRODUCTION
 
@@ -393,11 +392,7 @@ labels <- SingleR(renamed, mm.ref, labels=mm.ref$label.fine)
 ```
 
 To summarize results, a table was created comparing predicted labels
-<<<<<<< Updated upstream
 with cluster assignments, Higher values indicate stronger agreement
-=======
-with cluster assignments, higher values indicate stronger agreement
->>>>>>> Stashed changes
 between cluster identity and reference-based annotation. Most clusters
 show overlapping lineage assignments rather than a single identity,
 reflecting the transitional nature of hematopoietic cells. Several
@@ -432,28 +427,20 @@ mouse RNA-seq references from the SingleR package.*
 - Understood how preprocessing reduces bias and improves downstream
   analysis
 - Applied dimensionality reduction and visualization techniques (PCA,
-<<<<<<< Updated upstream
   t-SNE)
 
 ### What interesting things were learned from the data?
 
-=======
-  t-SNE) \### What interesting things were learned from the data?
->>>>>>> Stashed changes
 - Identified multiple distinct cell populations, showing heterogeneity
   in the dataset
 - Found that only a subset of genes drives major biological variation
 - Detected erythroid precursor cells based on marker gene expression
   (Car2, Hebp1, hemoglobin genes)
 - Observed that transcriptional differences are more informative than
-<<<<<<< Updated upstream
   protein-level variation
 
 ### What challenges were encountered?
 
-=======
-  protein-level variation \### What challenges were encountered?
->>>>>>> Stashed changes
 - Faced package installation and dependency issues (Bioconductor, SSL
   errors)
 - Encountered data and plotting errors (NA values, dimension mismatches)
@@ -461,11 +448,7 @@ mouse RNA-seq references from the SingleR package.*
 - Dealt with formatting issues in Quarto (figure placement, spacing,
   captions)
 
-<<<<<<< Updated upstream
 ### REFERENCES
-=======
-# References
->>>>>>> Stashed changes
 
 Lun ATL, McCarthy DJ and Marioni JC. A step-by-step workflow for
 low-level analysis of single-cell RNA-seq data with Bioconductor
